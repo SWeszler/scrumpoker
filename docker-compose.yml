@@ -12,7 +12,7 @@ services:
       - ./server:/server
     env_file:
       - ./server/.env
-    command: bash -c "cd server/scrumpoker && python manage.py runserver"
+    command: bash -c "cd scrumpoker && python manage.py migrate && python manage.py runserver"
 
   nodejs:
     image: node:12.14.1
@@ -23,4 +23,5 @@ services:
       - "3000:8080"
     volumes:
       - ./client:/client
-    command: bash -c "cd client/scrumpoker && npm install && npm run serve"
+    working_dir: /client
+    command: bash -c "cd scrumpoker && npm install && npm run serve"
