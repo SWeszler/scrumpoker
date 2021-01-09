@@ -15,6 +15,9 @@ import { Options, Vue } from 'vue-class-component';
 export default class Players extends Vue {
   msg!: string
 }
+
+// let socket = WebSocket('ws://locahost:5000/ws/pol-data/');
+
 </script>
 
 <style scoped>

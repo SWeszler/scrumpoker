@@ -1,11 +1,16 @@
-import websocket
-import json
+from websocket import create_connection
 
-ws = websocket.WebSocket()
-
-ws.connect('ws://localhost:5000/ws/pol-data/')
+ws = create_connection('ws://localhost:5000/ws/pol-data/')
 
 for i in range(10):
-    ws.send(json.dumps({
-        'value': f'{i}'
-    }))
+    ws.send(f"Sending {i}...")
+
+while True:
+    result = ws.recv()
+    print(result)
+    entry = input()
+    if entry == 'exit':
+        ws.close()
+        break
+    else:
+        ws.send(entry)
