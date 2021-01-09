@@ -25,3 +25,9 @@ services:
       - ./client:/client
     working_dir: /client
     command: bash -c "cd scrumpoker && npm install && npm run serve"
+
+  redis:
+    image: redis:6.0.9
+    ports:
+     - "6379:6379"
+    command: redis-server
