@@ -9,7 +9,7 @@
 4. Configuration for Channels
 5. Installing Redis
 6. Configuration for Redis connection in Django settings
-7. 
+7. Creating Consumer, connect, disconnect and receive
 
 
 ## Building Client Side
