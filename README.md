@@ -10,6 +10,7 @@
 5. Installing Redis
 6. Configuration for Redis connection in Django settings
 7. Creating Consumer, connect, disconnect and receive
+8. Creating websocket testing script
 
 
 ## Building Client Side
