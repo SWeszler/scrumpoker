@@ -7,27 +7,34 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-class-component';
+import { Vue } from 'vue-class-component';
 
-@Component
 export default class Room extends Vue {
-  thread: string = 'start\n';
-  message: string;
-  ws: WebSocket;
+  // thread: string = 'start\n';
+  // message: string;
+  // ws: WebSocket;
 
-  created() {
-    this.ws = new WebSocket('ws://localhost:5000/ws/pol-data/');
-    this.ws.onmessage = (e) => {
-      const data = JSON.parse(e.data);
-      this.thread += data.message + '\n';
-    };
+  data(){
+    return {
+      ws: false,
+      thread: false,
+      message: false,
+    }
   }
 
-  sendMsg() {
-    this.ws.send(JSON.stringify({
-      'message': this.message
-    }));
-  }
+  // created() {
+  //   this.ws = new WebSocket('ws://localhost:5000/ws/pol-data/');
+  //   this.ws.onmessage = (e) => {
+  //     const data = JSON.parse(e.data);
+  //     this.thread += data.message + '\n';
+  //   };
+  // }
+
+  // sendMsg() {
+  //   this.ws.send(JSON.stringify({
+  //     'message': this.message
+  //   }));
+  // }
 }
 
 </script>
