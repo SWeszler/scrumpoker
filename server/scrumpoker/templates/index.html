@@ -5,41 +5,7 @@
 </head>
 
 <body>
-  <h1>Hello!</h1>
-  <textarea id="chat-log" cols="100" rows="20"></textarea><br>
-  <input id="chat-message-input" type="text" size="100"><br>
-  <input id="chat-message-submit" type="button" value="Send">
-  <script>
-    let ws;
-    ws = new WebSocket('ws://localhost:5000/ws/pol-data/');
-    ws.onmessage = function(e) {
-      const data = JSON.parse(e.data);
-      document.querySelector('#chat-log').value += (data.message + '\n');
-    };
-    ws.onclose = function (e) {
-      console.error('Chat socket closed unexpectedly; reconnecting');
-      setTimeout(connectSocket, 1000);
-    };
-    ws.onopen = function (e) {
-      console.log("Socket connected; sending a ping");
-      ws.send("echo");
-    }
-
-    document.querySelector('#chat-message-input').focus();
-    document.querySelector('#chat-message-input').onkeyup = function (e) {
-      if (e.keyCode === 13) {  // enter, return
-        document.querySelector('#chat-message-submit').click();
-      }
-    };
-
-    document.querySelector('#chat-message-submit').onclick = function (e) {
-      const messageInputDom = document.querySelector('#chat-message-input');
-      const message = messageInputDom.value;
-      ws.send(JSON.stringify({
-        'message': message
-      }));
-    };
-  </script>
+  <h1>Welcome to Scrumpoker!</h1>
 </body>
 
 </html>

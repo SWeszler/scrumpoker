@@ -5,7 +5,7 @@ import json
 class GameConsumer(AsyncWebsocketConsumer):
     async def connect(self):
         await self.accept()
-        await self.send(json.dumps({'message': "hello!"}))
+        await self.send(json.dumps({'message': "connected!"}))
 
     async def disconnect(self):
         print('Game Consumer disconnected.')

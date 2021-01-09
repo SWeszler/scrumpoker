@@ -1,16 +1,16 @@
 <template>
   <div>
-    <Players msg="Players"/>
+    <Room/>
   </div>
 </template>
 
 <script lang="ts">
 import { Options, Vue } from 'vue-class-component';
-import Players from './components/Players.vue';
+import Room from './components/Room.vue';
 
 @Options({
   components: {
-    Players,
+    Room,
   },
 })
 export default class App extends Vue {}
