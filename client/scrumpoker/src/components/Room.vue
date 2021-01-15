@@ -1,8 +1,8 @@
 <template>
-  <div>
-    <textarea v-model="output"></textarea>
-    <input v-model="message"/>
-    <button @click="sendMsg">Send</button>
+  <div class="bg-red-200 p-1">
+    <textarea class="bg-transparent" v-model="output"></textarea>
+    <input class="border-black rounded shadow" v-model="message"/>
+    <button class="border-black rounded p-1" @click="sendMsg">Send</button>
   </div>
 </template>
 
