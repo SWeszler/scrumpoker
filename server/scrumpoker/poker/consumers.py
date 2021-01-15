@@ -21,20 +21,18 @@ class RoomConsumer(AsyncWebsocketConsumer):
 
     async def receive(self, text_data):
         text_data_json = json.loads(text_data)
-        message = text_data_json['message']
-        
         await self.channel_layer.group_send(
             'poker',
             {
-                'type': 'chat_message',
-                'message': message
+                'type': 'data_handler',
+                'message': text_data_json['message'],
+                'player': text_data_json['player']
             }
         )
 
 
-    async def chat_message(self, event):
-        message = event['message']
-
+    async def data_handler(self, event):
         await self.send(text_data=json.dumps({
-            'message': message
+            'message': event['message'],
+            'player': event['player']
         }))

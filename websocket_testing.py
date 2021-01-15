@@ -1,9 +1,6 @@
 from websocket import create_connection
 
-ws = create_connection('ws://localhost:5000/ws/pol-data/')
-
-for i in range(10):
-    ws.send(f"Sending {i}...")
+ws = create_connection('ws://localhost:5000/ws/join-game/')
 
 while True:
     result = ws.recv()

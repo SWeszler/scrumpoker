@@ -6,7 +6,7 @@ from django.core.asgi import get_asgi_application
 
 
 websocket_urlpatterns = [
-    path('ws/pol-data/', RoomConsumer.as_asgi())
+    path('ws/join-game/', RoomConsumer.as_asgi())
 ]
 
 application = ProtocolTypeRouter({
