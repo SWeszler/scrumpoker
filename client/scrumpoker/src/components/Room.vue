@@ -1,44 +1,37 @@
 <template>
   <div>
-    <textarea v-model="thread"></textarea>
-    <input v-model="message" type="text" />
+    <textarea v-model="output"></textarea>
+    <input v-model="message"/>
     <button @click="sendMsg">Send</button>
   </div>
 </template>
 
 <script lang="ts">
-import { Vue } from 'vue-class-component';
+import { Options, Vue } from 'vue-class-component';
+
+@Options({
+  name: 'Room'
+})
 
 export default class Room extends Vue {
-  // thread: string = 'start\n';
-  // message: string;
-  // ws: WebSocket;
+  ws: WebSocket = new WebSocket('ws://localhost:5000/ws/pol-data/');
+  output: string = '';
+  message: string = '';
 
-  data(){
-    return {
-      ws: false,
-      thread: false,
-      message: false,
+  created(){
+    this.ws.onmessage = (e) => {
+      const data = JSON.parse(e.data);
+      this.output += data.message + '\n';
     }
   }
 
-  // created() {
-  //   this.ws = new WebSocket('ws://localhost:5000/ws/pol-data/');
-  //   this.ws.onmessage = (e) => {
-  //     const data = JSON.parse(e.data);
-  //     this.thread += data.message + '\n';
-  //   };
-  // }
-
-  // sendMsg() {
-  //   this.ws.send(JSON.stringify({
-  //     'message': this.message
-  //   }));
-  // }
+  sendMsg(){
+    this.ws.send(JSON.stringify({
+      'message': this.message
+    }));
+  }
 }
-
 </script>
 
 <style scoped>
-
 </style>
