@@ -24,9 +24,15 @@ import './assets/main.css';
 })
 export default class App extends Vue {
   isLogged: boolean = false;
+  API: string = 'http://localhost:5000/'
 
   created(){
-
+    fetch(this.API + 'get-logged-user/', {
+      method: 'POST',
+      credentials: 'same-origin'
+    }).then(response => {
+      console.log('resp:', response);
+    })
   }
 
 }
