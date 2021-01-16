@@ -1,10 +1,10 @@
 <template>
   <div>
-    <h1 class=" text-xl text-center font-bold">Welcome to Scrumpoker!</h1>
+    <h1 class="bg-sw-logo bg-no-repeat bg-center pb-10 pt-5 text-4xl text-center font-bold text-white antialiased opacity-70">ScrumPoker</h1>
     <div v-if="isLogged">
       <Room/>
     </div>
-    <div v-else>
+    <div v-else class="container mx-auto flex justify-center items-center">
       <Login/>
     </div>
   </div>
@@ -26,7 +26,7 @@ export default class App extends Vue {
   isLogged: boolean = false;
 
   created(){
-    
+
   }
 
 }
