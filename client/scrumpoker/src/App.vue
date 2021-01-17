@@ -1,7 +1,7 @@
 <template>
   <div>
     <h1 class="bg-sw-logo bg-no-repeat bg-center pb-10 pt-5 text-4xl text-center font-bold text-white antialiased opacity-70">ScrumPoker</h1>
-    <div v-if="isLogged">
+    <div v-if="accessToken.length">
       <Room/>
     </div>
     <div v-else class="container mx-auto flex justify-center items-center">
@@ -23,11 +23,11 @@ import './assets/main.css';
   },
 })
 export default class App extends Vue {
-  isLogged: boolean = false;
+  accessToken: string = '';
   API: string = 'http://localhost:5000/'
 
   created(){
-    fetch(this.API + 'get-logged-user/', {
+    fetch(this.API + 'api/token/', {
       method: 'POST',
       credentials: 'same-origin'
     }).then(response => {
