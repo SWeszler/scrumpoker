@@ -24,15 +24,9 @@ import './assets/main.css';
 })
 export default class App extends Vue {
   accessToken: string = '';
-  API: string = 'http://localhost:5000/'
 
   created(){
-    fetch(this.API + 'api/token/', {
-      method: 'POST',
-      credentials: 'same-origin'
-    }).then(response => {
-      console.log('resp:', response);
-    })
+
   }
 
 }

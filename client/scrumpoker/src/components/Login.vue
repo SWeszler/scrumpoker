@@ -31,8 +31,24 @@ import { Options, Vue } from 'vue-class-component';
 })
 
 export default class Login extends Vue {
+  username: string = '';
+  password: string = '';
 
-  login(){
+  async login(){
+    let data = {
+      username: this.username,
+      password: this.password
+    };
+
+    const respBody = await fetch(this.$api + 'api/token/', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(data)
+    });
+    respBody.json().then(data => {
+      localStorage.setItem('access_token', data.access);
+      localStorage.setItem('refresh_token', data.refresh);
+    });
 
   }
 
