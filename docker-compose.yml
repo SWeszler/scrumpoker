@@ -1,6 +1,17 @@
 version: '3'
 
 services:
+
+  db:
+    image: mysql:8.0.23
+    ports:
+      - "3308:3306"
+    environment:
+       MYSQL_DATABASE: "scrumpoker"
+       MYSQL_USER: "root"
+       MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+    command: mysqld --user=root --default-authentication-plugin=mysql_native_password
+
   web:
     build: .
     restart: always
@@ -13,6 +24,8 @@ services:
     env_file:
       - ./server/.env
     command: bash -c "cd scrumpoker && python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
+    depends_on:
+      - db
 
   nodejs:
     image: node:12.14.1
@@ -23,8 +36,8 @@ services:
       - "3000:8080"
     volumes:
       - ./client:/client
-    working_dir: /client
-    command: bash -c "cd scrumpoker && npm install && npm run serve"
+    working_dir: /client/scrumpoker
+    command: bash -c "npm install && npm run serve"
 
   redis:
     image: redis:6.0.9
