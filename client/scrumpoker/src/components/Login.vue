@@ -33,6 +33,7 @@ import { Options, Vue } from 'vue-class-component';
 export default class Login extends Vue {
   username: string = '';
   password: string = '';
+  $api: string = '';
 
   async login(){
     let data = {
