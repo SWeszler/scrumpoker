@@ -4,6 +4,7 @@ import os
 import environ
 import google.auth
 from google.cloud import secretmanager as sm
+import logging
 
 # Import the original settings from each template
 from .settings_base import *
@@ -26,7 +27,7 @@ env = environ.Env()
 env.read_env(io.StringIO(payload))
 
 # Setting this value from django-environ
-print('secrets from env:', env("SECRET_KEY"), env("DEBUG"))
+logging.warning('secrets from env: ' + str(env("SECRET_KEY")) + " " + str(env("DEBUG")))
 SECRET_KEY = env("SECRET_KEY")
 
 # Allow all hosts to access Django site
