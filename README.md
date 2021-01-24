@@ -14,8 +14,25 @@
 9. Token Authentication https://hashnode.com/post/using-django-drf-jwt-authentication-with-django-channels-cjzy5ffqs0013rus1yb9huxvl
 
 
-## Building Client Side
+## Build Client Side
 
 
+## Deployment To Google Cloud Run
 
-## Deployment To Production
+### Enable Cloud APIs
+```
+gcloud services enable \
+  run.googleapis.com \
+  sql-component.googleapis.com \
+  sqladmin.googleapis.com \
+  compute.googleapis.com \
+  cloudbuild.googleapis.com \
+  secretmanager.googleapis.com
+```
+
+### Clone Repository
+```
+gig clone ...
+```
+
+### 
