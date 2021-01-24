@@ -22,7 +22,10 @@ client = sm.SecretManagerServiceClient()
 name = f"projects/{project}/secrets/{SETTINGS_NAME}/versions/latest"
 payload = client.access_secret_version(name=name).payload.data.decode("UTF-8")
 
-env = environ.Env()
+env = environ.Env(
+    DEBUG=(bool, False),
+    CORS_ALLOW_ALL_ORIGINS=(bool, False)
+)
 env.read_env(io.StringIO(payload))
 
 # Setting this value from django-environ
@@ -33,8 +36,10 @@ for host in env("ALLOWED_HOSTS").split(','):
     ALLOWED_HOSTS += [host]
 
 # Allow CORS
-for host in env("CORS_ORIGIN_WHITELIST").split(','):
-    CORS_ORIGIN_WHITELIST += [host]
+CORS_ALLOW_ALL_ORIGINS = env("CORS_ALLOW_ALL_ORIGINS")
+for host in env("CORS_ALLOWED_ORIGINS").split(','):
+    if host:
+        CORS_ALLOWED_ORIGINS += [host]
 
 # Default false. True allows default landing pages to be visible
 DEBUG = env("DEBUG")
