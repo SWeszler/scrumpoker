@@ -10,7 +10,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 env = environ.Env(
     DEBUG=(bool, True),
     CORS_ALLOW_ALL_ORIGINS=(bool, True),
-    MODE=(str, "development")
+    MODE=(str, "production")
 )
 
 if env("MODE") == "production":
