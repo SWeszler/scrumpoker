@@ -36,3 +36,7 @@ gig clone ...
 ```
 
 ### Migrate Database
+
+```
+gcloud sql import sql scrumpoker gs://bucket-name/db.sql --database=scrumpoker
+```
