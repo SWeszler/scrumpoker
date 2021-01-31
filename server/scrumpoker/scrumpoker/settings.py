@@ -14,8 +14,10 @@ env = environ.Env(
 )
 
 if env("MODE") == "production":
+    import io
     import google.auth
     from google.cloud import secretmanager as sm
+    
     GCP_SECRETS_NAME = "application_settings"
     _, project = google.auth.default()
     client = sm.SecretManagerServiceClient()
