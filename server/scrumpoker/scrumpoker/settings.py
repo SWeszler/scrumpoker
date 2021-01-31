@@ -16,10 +16,10 @@ env = environ.Env(
 if env("MODE") == "production":
     import google.auth
     from google.cloud import secretmanager as sm
-    SETTINGS_NAME = env("SETTINGS_NAME", "application_settings")
+    GCP_SECRETS_NAME = "application_settings"
     _, project = google.auth.default()
     client = sm.SecretManagerServiceClient()
-    name = f"projects/{project}/secrets/{SETTINGS_NAME}/versions/latest"
+    name = f"projects/{project}/secrets/{GCP_SECRETS_NAME}/versions/latest"
     payload = client.access_secret_version(name=name).payload.data.decode("UTF-8")
     env.read_env(io.StringIO(payload))
 
