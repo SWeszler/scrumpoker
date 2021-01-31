@@ -1,17 +1,35 @@
 from pathlib import Path
+import environ
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+# Gen Environment
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
+env = environ.Env(
+    DEBUG=(bool, True),
+    CORS_ALLOW_ALL_ORIGINS=(bool, True),
+    MODE=(str, "development")
+)
 
+if env("MODE") == "production":
+    import google.auth
+    from google.cloud import secretmanager as sm
+    SETTINGS_NAME = env("SETTINGS_NAME", "application_settings")
+    _, project = google.auth.default()
+    client = sm.SecretManagerServiceClient()
+    name = f"projects/{project}/secrets/{SETTINGS_NAME}/versions/latest"
+    payload = client.access_secret_version(name=name).payload.data.decode("UTF-8")
+    env.read_env(io.StringIO(payload))
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+# Django Settings
 
+SECRET_KEY = env('SECRET_KEY')
+DEBUG = env("DEBUG")
 ALLOWED_HOSTS = []
+for host in env("ALLOWED_HOSTS").split(','):
+    ALLOWED_HOSTS += [host]
 
 
 # Application definition
@@ -28,6 +46,11 @@ INSTALLED_APPS = [
     'channels',
     'poker'
 ]
+
+if env('MODE') == 'production':
+    INSTALLED_APPS += ["storages"] # for django-storages
+
+# Middleware
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -48,9 +71,6 @@ REST_FRAMEWORK = {
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ]
 }
-
-CORS_ALLOW_ALL_ORIGINS = False
-CORS_ALLOWED_ORIGINS = []
 
 ROOT_URLCONF = 'scrumpoker.urls'
 
@@ -99,6 +119,7 @@ DATABASES = {
         'PORT': 3306,
     }
 }
+DATABASES["default"] = env.db()
 
 
 # Password validation
@@ -138,3 +159,11 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
+# CORS
+
+CORS_ALLOWED_ORIGINS = []
+CORS_ALLOW_ALL_ORIGINS = env("CORS_ALLOW_ALL_ORIGINS")
+for host in env("CORS_ALLOWED_ORIGINS").split(','):
+    if host:
+        CORS_ALLOWED_ORIGINS += [host]

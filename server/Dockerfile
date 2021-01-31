@@ -6,11 +6,9 @@ ENV APP_HOME /app
 WORKDIR $APP_HOME
 
 # Install dependencies.
-COPY requirements_base.txt .
-COPY requirements_prod.txt .
+COPY requirements.txt .
 RUN python -m pip install --upgrade pip && \
-pip install -r requirements_base.txt --use-deprecated=legacy-resolver && \
-pip install -r requirements_prod.txt --use-deprecated=legacy-resolver
+pip install -r requirements.txt --use-deprecated=legacy-resolver
 
 # Copy local code to the container image.
 COPY ./scrumpoker .
