@@ -17,7 +17,7 @@ if env("MODE") == "production":
     import io
     import google.auth
     from google.cloud import secretmanager as sm
-    
+
     GCP_SECRETS_NAME = "application_settings"
     _, project = google.auth.default()
     client = sm.SecretManagerServiceClient()
@@ -169,3 +169,13 @@ CORS_ALLOW_ALL_ORIGINS = env("CORS_ALLOW_ALL_ORIGINS")
 for host in env("CORS_ALLOWED_ORIGINS").split(','):
     if host:
         CORS_ALLOWED_ORIGINS += [host]
+
+
+# Define static storage via django-storages[google]
+
+if env("MODE") == "production":    
+    GS_BUCKET_NAME = env("GS_BUCKET_NAME")
+    STATICFILES_DIRS = []
+    DEFAULT_FILE_STORAGE = "storages.backends.gcloud.GoogleCloudStorage"
+    STATICFILES_STORAGE = "storages.backends.gcloud.GoogleCloudStorage"
+    GS_DEFAULT_ACL = "publicRead"
