@@ -1,4 +1,12 @@
 steps:
+  - name: node:12.14.1
+    entrypoint: npm
+    args: ['--prefix', 'client/scrumpoker', 'install']
+    id: BuildClient
+    artifacts:
+      objects:
+        location: 'gs://sp_client'
+        paths: 'client/scrumpoker/public'
   - name: gcr.io/cloud-builders/docker
     args:
       - build
@@ -8,7 +16,7 @@ steps:
       - server
       - '-f'
       - server/Dockerfile
-    id: Build
+    id: BuildServer
   - name: gcr.io/cloud-builders/docker
     args:
       - push
