@@ -1,18 +1,20 @@
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png" />
-    <Login />
+  <div class="text-center p-10">
+    <img class="inline-block" alt="Scrumpoker Logo" src="../assets/logo.svg" />
+    <p>Welcome to Scrumpoker.</p>
+    <p v-if="logged">User Name!</p>
+    <p v-else>Login/Signup to start the game!</p>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
-import Login from "@/components/Login.vue"; // @ is an alias to /src
+import { defineComponent, ref } from "vue";
 
 export default defineComponent({
-  name: "Home",
-  components: {
-    Login
+  setup(){
+    const logged = ref(false);
+
+    return { logged };
   }
 });
 </script>
