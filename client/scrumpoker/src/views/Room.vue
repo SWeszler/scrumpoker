@@ -1,20 +1,26 @@
 <template>
-    <div>
-        room
-        {{ activeUsers }}
+  <div>
+    <div v-if="loading">
+      Loading...
     </div>
+    <div v-else>
+      {{ activeUsers }}
+    </div>
+  </div>
 </template>
 
 <script lang="ts">
 import { defineComponent, reactive, toRefs } from 'vue';
 import { useStore } from 'vuex';
+import router from '../router';
 
 const WS_URL = process.env.VUE_APP_WS_URL;
 
 export default defineComponent({
   setup(){
     const compData = reactive({
-      activeUsers: ["test"]
+      activeUsers: [] as string[],
+      loading: true as boolean
     });
     const store = useStore();
 
@@ -23,6 +29,10 @@ export default defineComponent({
       const data = JSON.parse(e.data);
       console.log(data);
       compData.activeUsers = data.players;
+      compData.loading = false;
+    }
+    ws.onerror = (e) => {
+      router.push('login')
     }
 
     return { ...toRefs(compData) };

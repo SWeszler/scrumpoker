@@ -4,7 +4,7 @@ export default createStore({
   state: {
     accessToken: localStorage.getItem('access_token') || '',
     refreshToken: localStorage.getItem('refresh_token') || '',
-    user: '',
+    user: null as null | string,
   },
   mutations: {
     SAVE_AUTH(state, data){
