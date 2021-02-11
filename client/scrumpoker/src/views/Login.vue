@@ -48,7 +48,7 @@ export default defineComponent({
 
       try {
         const response = await axios.post('api/token/', data);
-        store.commit('SAVE_AUTH', response.data.access, response.data);
+        store.commit('SAVE_AUTH', response.data);
         success = true;
       } catch (error) {
         compData.error = error;

@@ -1,4 +1,4 @@
-from channels.auth import AuthMiddlewareStack
+from scrumpoker.channelsmiddleware import TokenAuthMiddleware
 from channels.routing import ProtocolTypeRouter, URLRouter
 from django.urls import path
 from poker.consumers import RoomConsumer
@@ -12,7 +12,7 @@ websocket_urlpatterns = [
 
 application = ProtocolTypeRouter({
     'http': get_asgi_application(),
-    'websocket': AuthMiddlewareStack(
+    'websocket': TokenAuthMiddleware(
         URLRouter(websocket_urlpatterns)
     )
 })
