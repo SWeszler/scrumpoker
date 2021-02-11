@@ -1,12 +1,9 @@
 import { shallowMount } from "@vue/test-utils";
-import HelloWorld from "@/components/HelloWorld.vue";
+import Login from "@/views/Login.vue";
 
-describe("HelloWorld.vue", () => {
-  it("renders props.msg when passed", () => {
-    const msg = "new message";
-    const wrapper = shallowMount(HelloWorld, {
-      props: { msg }
-    });
-    expect(wrapper.text()).toMatch(msg);
+describe("Test Login", () => {
+  it("Test if user is authenticated.", () => {
+    const wrapper = shallowMount(Login);
+    expect(wrapper.find('button#login').text()).toMatch("Login");
   });
 });
