@@ -24,22 +24,25 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, getCurrentInstance, ref } from 'vue';
+import { defineComponent, ref, getCurrentInstance } from 'vue';
+import { useStore } from 'vuex';
 
 export default defineComponent({
-  setup(props, context){
-    const instance = getCurrentInstance();
+  setup(_, ctx){
     const username = ref('');
     const password = ref('');
-    
+    const store = useStore();
+    const { ...context } = getCurrentInstance() as NonNullable<ReturnType<typeof getCurrentInstance>>;
 
+    console.log(context.appContext.app.axios);
+    
     async function login(){
       const data = {
         username: username.value,
         password: password.value
       };
 
-      const respBody = await fetch(instance.ctx.$store.state.API_URL + '/api/token/', {
+      const respBody = await fetch(store.state.API_URL + '/api/token/', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify(data)
@@ -57,5 +60,3 @@ export default defineComponent({
 });
 </script>
 
-<style scoped>
-</style>

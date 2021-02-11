@@ -2,9 +2,15 @@ import { createStore } from "vuex";
 
 export default createStore({
   state: {
-    API_URL: "http://localhost:5000"
+    accessToken: null as string | null,
+    refreshToken: null as string | null
   },
-  mutations: {},
+  mutations: {
+    INITIALIZE_STORE(state){
+      state.accessToken = localStorage.getItem('access_token');
+      state.refreshToken = localStorage.getItem('refresh_token');
+    }
+  },
   actions: {},
   modules: {}
 });
