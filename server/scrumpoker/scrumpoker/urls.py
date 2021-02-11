@@ -11,7 +11,8 @@ urlpatterns = [
     path('admin2021/', admin.site.urls),
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
-    path('', views.home)
+    path('', views.home),
+    path('get-logged-user/', views.get_logged_user)
 ]
 
 urlpatterns += staticfiles_urlpatterns()

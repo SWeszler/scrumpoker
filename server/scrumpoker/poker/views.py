@@ -8,6 +8,6 @@ from rest_framework.permissions import IsAuthenticated
 def home(request):
     return TemplateResponse(request, 'index.html')
 
-@api_view(['POST'])
+@api_view(['GET'])
 def get_logged_user(request):
     return Response(data='works...', status=status.HTTP_200_OK)

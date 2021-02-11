@@ -19,16 +19,14 @@ class TokenAuthMiddleware:
 
 
     async def __call__(self, scope, receive, send):
-        token = parse_qs(scope["query_string"].decode("utf8"))["token"][0]
+        qs = parse_qs(scope["query_string"].decode("utf8"))
+        token = qs.get("token", [""])[0]
 
         try:
             UntypedToken(token)
         except (InvalidToken, TokenError) as e:
-            import sys
-            print(str(e), file=sys.stderr)
             return None
 
         decoded_data = jwt_decode(token, settings.SECRET_KEY, algorithms=["HS256"])
         scope["user"] = await self.get_user(int(decoded_data["user_id"]))
-        
-        return self.app(scope, receive, send)
+        return await self.app(scope, receive, send)
