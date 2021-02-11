@@ -7,7 +7,7 @@ export default createStore({
     user: '',
   },
   mutations: {
-    AUTH_SUCCESS(state, data){
+    SAVE_AUTH(state, data){
       state.accessToken = data.access;
       state.accessToken = data.refresh;
       state.user = data.user;

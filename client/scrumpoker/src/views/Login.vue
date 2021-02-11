@@ -25,9 +25,10 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, toRefs, getCurrentInstance } from 'vue';
+import { defineComponent, reactive, toRefs } from 'vue';
 import { useStore } from 'vuex';
 import router from "../router";
+import axios from "../axios";
 
 export default defineComponent({
   setup(){
@@ -36,12 +37,7 @@ export default defineComponent({
       password: '',
       error: ''
     });
-
     const store = useStore();
-    const { ...context } = getCurrentInstance() as NonNullable<ReturnType<typeof getCurrentInstance>>;
-    const app = context.appContext.app;
-
-    console.log(app);
     
     async function login(){
       const data = {
@@ -51,7 +47,7 @@ export default defineComponent({
       let success = false;
 
       try {
-        const response = await app.axios.post('api/token/', data);
+        const response = await axios.post('api/token/', data);
         store.commit('SAVE_AUTH', response.data.access, response.data);
         success = true;
       } catch (error) {
@@ -61,7 +57,6 @@ export default defineComponent({
       if(success) {
         router.push('/room');
       }
-
     }
 
     return { login, ...toRefs(compData) }
