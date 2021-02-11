@@ -20,35 +20,51 @@
           Signup
         </button>
       </div>
+      <div>{{error}}</div>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, getCurrentInstance } from 'vue';
+import { defineComponent, reactive, toRefs, getCurrentInstance } from 'vue';
 import { useStore } from 'vuex';
+import router from "../router";
 
 export default defineComponent({
-  setup(_, ctx){
-    const username = ref('');
-    const password = ref('');
+  setup(){
+    const compData = reactive({
+      username: '',
+      password: '',
+      error: ''
+    });
+
     const store = useStore();
     const { ...context } = getCurrentInstance() as NonNullable<ReturnType<typeof getCurrentInstance>>;
+    const app = context.appContext.app;
+
+    console.log(app);
     
     async function login(){
       const data = {
-        username: username.value,
-        password: password.value
+        username: compData.username,
+        password: compData.password
       };
+      let success = false;
 
-      const response = await context.appContext.app.axios.post('api/token/', data);
+      try {
+        const response = await app.axios.post('api/token/', data);
+        store.commit('SAVE_AUTH', response.data.access, response.data);
+        success = true;
+      } catch (error) {
+        compData.error = error;
+      }
 
-      localStorage.setItem('access_token', response.data.access);
-      localStorage.setItem('refresh_token', response.data.refresh);
-
+      if(success) {
+        router.push('/room');
+      }
 
     }
 
-    return { username, password, login }
+    return { login, ...toRefs(compData) }
   }
 
 });
