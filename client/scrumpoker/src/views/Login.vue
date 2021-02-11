@@ -33,8 +33,6 @@ export default defineComponent({
     const password = ref('');
     const store = useStore();
     const { ...context } = getCurrentInstance() as NonNullable<ReturnType<typeof getCurrentInstance>>;
-
-    console.log(context.appContext.app.axios);
     
     async function login(){
       const data = {
@@ -42,15 +40,11 @@ export default defineComponent({
         password: password.value
       };
 
-      const respBody = await fetch(store.state.API_URL + '/api/token/', {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify(data)
-      });
-      respBody.json().then(data => {
-        localStorage.setItem('access_token', data.access);
-        localStorage.setItem('refresh_token', data.refresh);
-      });
+      const response = await context.appContext.app.axios.post('api/token/', data);
+
+      localStorage.setItem('access_token', response.data.access);
+      localStorage.setItem('refresh_token', response.data.refresh);
+
 
     }
 
