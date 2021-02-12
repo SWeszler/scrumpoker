@@ -24,7 +24,7 @@ const routes: Array<RouteRecordRaw> = [
     name: "Room",
     component: () => import("../views/Room.vue"),
     meta: {
-        requiresAuth: true
+      requiresAuth: true
     }
   }
 ];
@@ -36,24 +36,24 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
   if (to.name === "Login") {
-    store.dispatch('refreshToken').then(() => {
+    store.dispatch("refreshToken").then(() => {
       if (store.state.isAuthenticated) {
         next({ name: "Room" });
       } else {
         next();
       }
     });
-  } else if (!to.meta.requiresAuth || store.state.isAuthenticated){
+  } else if (!to.meta.requiresAuth || store.state.isAuthenticated) {
     next();
-  } else  {
-    store.dispatch('refreshToken').then(() => {
+  } else {
+    store.dispatch("refreshToken").then(() => {
       if (store.state.isAuthenticated) {
         next();
       } else {
-        next({ name: "Login"});
+        next({ name: "Login" });
       }
     });
   }
-})
+});
 
 export default router;

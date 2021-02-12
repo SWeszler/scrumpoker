@@ -3,7 +3,7 @@
     <div v-if="loading">
       Loading...
     </div>
-    <div v-else >
+    <div v-else>
       {{ activeUsers }}
     </div>
   </div>
@@ -16,7 +16,7 @@ import { useStore } from "vuex";
 const WS_URL = process.env.VUE_APP_WS_URL;
 
 export default defineComponent({
-  setup(){
+  setup() {
     const compData = reactive({
       activeUsers: [] as string[],
       loading: true as boolean
@@ -31,7 +31,7 @@ export default defineComponent({
       console.log(data);
       compData.activeUsers = data.players;
       compData.loading = false;
-    }
+    };
 
     return { ...toRefs(compData) };
   }

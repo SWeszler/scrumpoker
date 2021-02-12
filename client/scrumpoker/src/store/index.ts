@@ -1,7 +1,6 @@
 import { createStore } from "vuex";
 import axios from "@/axios";
 
-
 export default createStore({
   state: {
     accessToken: localStorage.getItem("access_token") || "",
@@ -9,7 +8,7 @@ export default createStore({
     isAuthenticated: false
   },
   mutations: {
-    SAVE_AUTH(state, data){
+    SAVE_AUTH(state, data) {
       state.accessToken = data.access;
       state.accessToken = data.refresh;
       localStorage.setItem("access_token", data.access);
@@ -18,13 +17,15 @@ export default createStore({
     }
   },
   actions: {
-    async refreshToken({ commit, state }){
+    async refreshToken({ commit, state }) {
       try {
-        const response = await axios.post("api/token/refresh/", { refresh: state.refreshToken});
+        const response = await axios.post("api/token/refresh/", {
+          refresh: state.refreshToken
+        });
         response.data.refresh = state.refreshToken;
         commit("SAVE_AUTH", response.data);
-      } catch(err) {
-        console.error(err)
+      } catch (err) {
+        console.error(err);
       }
     }
   },
