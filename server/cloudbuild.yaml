@@ -8,7 +8,7 @@ steps:
     args: ['--prefix', 'client/scrumpoker', 'run', 'build']
     id: BuildClient
   - name: 'gcr.io/cloud-builders/gsutil'
-    args: ['-m', 'rsync', '-d', '-r', 'client/scrumpoker/dist/*', 'gs://sp_client']
+    args: ['-m', 'rsync', '-d', '-r', 'client/scrumpoker/dist', 'gs://sp_client']
     id: StoreArtifacts
   - name: gcr.io/cloud-builders/docker
     args:
