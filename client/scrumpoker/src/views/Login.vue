@@ -25,17 +25,17 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, toRefs } from 'vue';
-import { useStore } from 'vuex';
-import router from "../router";
-import axios from "../axios";
+import { defineComponent, reactive, toRefs } from "vue";
+import { useStore } from "vuex";
+import router from "@/router";
+import axios from "@/axios";
 
 export default defineComponent({
   setup(){
     const compData = reactive({
-      username: '',
-      password: '',
-      error: ''
+      username: "",
+      password: "",
+      error: ""
     });
     const store = useStore();
     
@@ -47,15 +47,15 @@ export default defineComponent({
       let success = false;
 
       try {
-        const response = await axios.post('api/token/', data);
-        store.commit('SAVE_AUTH', response.data);
+        const response = await axios.post("api/token/", data);
+        store.commit("SAVE_AUTH", response.data);
         success = true;
       } catch (error) {
         compData.error = error;
       }
 
       if(success) {
-        router.push('/room');
+        router.push("/room");
       }
     }
 

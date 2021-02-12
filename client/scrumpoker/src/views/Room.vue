@@ -3,16 +3,15 @@
     <div v-if="loading">
       Loading...
     </div>
-    <div v-else>
+    <div v-else >
       {{ activeUsers }}
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, toRefs } from 'vue';
-import { useStore } from 'vuex';
-import router from '../router';
+import { defineComponent, reactive, toRefs } from "vue";
+import { useStore } from "vuex";
 
 const WS_URL = process.env.VUE_APP_WS_URL;
 
@@ -24,15 +23,14 @@ export default defineComponent({
     });
     const store = useStore();
 
-    const ws = new WebSocket(WS_URL + 'ws/join-game/' + '?token=' + store.state.accessToken);
-    ws.onmessage = (e) => {
+    const ws = new WebSocket(
+      WS_URL + "ws/join-game/" + "?token=" + store.state.accessToken
+    );
+    ws.onmessage = e => {
       const data = JSON.parse(e.data);
       console.log(data);
       compData.activeUsers = data.players;
       compData.loading = false;
-    }
-    ws.onerror = (e) => {
-      router.push('login')
     }
 
     return { ...toRefs(compData) };
