@@ -14,7 +14,7 @@ services:
        MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
     command: mysqld --user=root --default-authentication-plugin=mysql_native_password
 
-  web:
+  webprod:
     build: ./server/
     restart: always
     expose:
@@ -27,6 +27,7 @@ services:
       - ./server/.env
     depends_on:
       - db
+      - redis
 
   redis:
     image: redis:6.0.9
