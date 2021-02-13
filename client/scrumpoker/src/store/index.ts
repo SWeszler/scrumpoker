@@ -10,7 +10,7 @@ export default createStore({
   mutations: {
     SAVE_AUTH(state, data) {
       state.accessToken = data.access;
-      state.accessToken = data.refresh;
+      state.refreshToken = data.refresh;
       localStorage.setItem("access_token", data.access);
       localStorage.setItem("refresh_token", data.refresh);
       state.isAuthenticated = true;
