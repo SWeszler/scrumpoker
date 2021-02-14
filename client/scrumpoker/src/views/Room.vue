@@ -7,21 +7,31 @@
       <div v-else>
         <ul>
           <li v-for="(player, index) in activeUsers" :key="index">
-            <span>{{index + 1}}. {{player.name}}</span>
-            <span class="ml-5" v-if="player.vote > 0" v-text="player.vote"></span>
-            <span v-else></span>
+            <span class="mr-5">{{ index + 1 }}. {{ player.name }}</span>
+            <span
+              v-if="flipped"
+              v-text="player.vote"
+            ></span>
+            <span v-else-if="player.vote > 0"><i class="far fa-check-circle"></i></span>
+            <span v-else><i class="fas fa-hourglass-half"></i></span>
           </li>
         </ul>
       </div>
     </div>
     <div>
       <div>
-        <button @click="flipCards" class="p-2 rounded bg-black">Flip Cards</button>
+        <button @click="flipCards" class="p-2 rounded bg-black">
+          Flip Cards
+        </button>
       </div>
       <div class="p-5">
         <ul class="flex">
           <li class="mr-5" v-for="card in cards" :key="card">
-            <button class="p-3 border border-gray-400 rounded" @click="vote(card)" v-text="card"></button>
+            <button
+              class="p-3 border border-gray-400 rounded"
+              @click="vote(card)"
+              v-text="card"
+            ></button>
           </li>
         </ul>
       </div>
@@ -40,7 +50,8 @@ export default defineComponent({
     const compData = reactive({
       activeUsers: [] as string[],
       loading: true as boolean,
-      cards: [1, 2, 3, 5, 8]
+      cards: [1, 2, 3, 5, 8],
+      flipped: false
     });
     const store = useStore();
 
@@ -53,15 +64,16 @@ export default defineComponent({
       compData.loading = false;
     };
 
-    function vote(cardVote: number){
+    function vote(cardVote: number) {
       const data = {
         vote: cardVote
-      }
+      };
       ws.send(JSON.stringify(data));
     }
 
-    function flipCards(){
+    function flipCards() {
       console.log("flippin...");
+      compData.flipped = true;
     }
 
     return { ...toRefs(compData), vote, flipCards };
