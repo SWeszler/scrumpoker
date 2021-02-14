@@ -23,7 +23,10 @@ class RoomConsumer(AsyncWebsocketConsumer):
 
     async def receive(self, text_data):
         text_data_json = json.loads(text_data)
-        await self.player_vote(name=self.scope["user"], vote=text_data_json["vote"])
+        if text_data_json.get("restart"):
+            await self.restart_game()
+        else:
+            await self.player_vote(name=self.scope["user"], vote=text_data_json["vote"])
         await self.channel_layer.group_send( "room", { "type": "data_handler" })
 
 
@@ -43,8 +46,10 @@ class RoomConsumer(AsyncWebsocketConsumer):
     def player_vote(self, name, vote):
         player = Player.objects.filter(name=name).first()
         if player:
-            player.vote = int(vote)
-            player.save(update_fields=["vote"])
+            if not player.voted:
+                player.vote = int(vote)
+            player.voted = True
+            player.save(update_fields=["vote", "voted"])
 
 
 
@@ -55,6 +60,22 @@ class RoomConsumer(AsyncWebsocketConsumer):
 
     @database_sync_to_async
     def get_players(self):
-        return [{"name": player.name, "vote": player.vote} for player in Player.objects.all()]
+        players = []
+        for player in Player.objects.all():
+            players.append({
+                "name": player.name,
+                "vote": player.vote,
+                "voted": player.voted
+            })
+        return players
+
+
+    @database_sync_to_async
+    def restart_game(self):
+        players = []
+        for player in Player.objects.all():
+            player.voted = False
+            player.save(update_fields=["voted"])
+        return players
 
 

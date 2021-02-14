@@ -12,7 +12,7 @@
               v-if="flipped"
               v-text="player.vote"
             ></span>
-            <span v-else-if="player.vote > 0"><i class="far fa-check-circle"></i></span>
+            <span v-else-if="player.voted"><i class="far fa-check-circle"></i></span>
             <span v-else><i class="fas fa-hourglass-half"></i></span>
           </li>
         </ul>
@@ -81,6 +81,10 @@ export default defineComponent({
 
     function restartGame() {
       compData.flipped = false;
+      const data = {
+        restart: true
+      }
+      ws.send(JSON.stringify(data));
     }
 
     return { ...toRefs(compData), vote, flipCards, restartGame };
