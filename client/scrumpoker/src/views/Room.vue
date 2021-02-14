@@ -12,7 +12,7 @@
               v-if="flipped"
               v-text="player.vote"
             ></span>
-            <span v-else-if="player.voted"><i class="far fa-check-circle"></i></span>
+            <span class="text-green-400 rounded bg-white p-1" v-else-if="player.voted"><i class="far fa-check-circle"></i></span>
             <span v-else><i class="fas fa-hourglass-half"></i></span>
           </li>
         </ul>

@@ -16,7 +16,7 @@ class RoomConsumer(AsyncWebsocketConsumer):
 
 
     async def disconnect(self, close_code):
-        await self.remove_player(self.scope["user"])
+        await self.deactivate_player(self.scope["user"])
         await self.channel_layer.group_send( "room", { "type": "data_handler" })
         await self.channel_layer.group_discard( "room", self.channel_name )
 
@@ -39,7 +39,11 @@ class RoomConsumer(AsyncWebsocketConsumer):
 
     @database_sync_to_async
     def get_or_create_player(self, name):
-        return Player.objects.get_or_create(name=name)
+        player, _ = Player.objects.get_or_create(name=name)
+        player.active = True
+        player.save(update_fields=["active"])
+        
+        return player
 
 
     @database_sync_to_async
@@ -54,14 +58,19 @@ class RoomConsumer(AsyncWebsocketConsumer):
 
 
     @database_sync_to_async
-    def remove_player(self, name):
-        return Player.objects.filter(name=name).delete()
+    def deactivate_player(self, name):
+        player = Player.objects.filter(name=name).first()
+        if player:
+            player.active = False
+            player.save(update_fields="active")
 
 
     @database_sync_to_async
     def get_players(self):
         players = []
         for player in Player.objects.all():
+            if not player.active:
+                continue
             players.append({
                 "name": player.name,
                 "vote": player.vote,
