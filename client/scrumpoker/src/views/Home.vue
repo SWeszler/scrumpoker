@@ -3,7 +3,7 @@
     <img class="inline-block" alt="Scrumpoker Logo" src="../assets/logo.svg" />
     <p>Welcome to Scrumpoker.</p>
     <p v-if="logged">User Name!</p>
-    <p v-else>Login/Signup to start the game!</p>
+    <p v-else>Login to start the game!</p>
   </div>
 </template>
 

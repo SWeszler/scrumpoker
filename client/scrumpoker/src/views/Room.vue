@@ -20,8 +20,11 @@
     </div>
     <div>
       <div>
-        <button @click="flipCards" class="p-2 rounded bg-black">
+        <button @click="flipCards" class="p-2 rounded bg-white mr-5">
           Flip Cards
+        </button>
+        <button @click="restartGame" class="p-2 rounded bg-white">
+          Restart
         </button>
       </div>
       <div class="p-5">
@@ -31,6 +34,7 @@
               class="p-3 border border-gray-400 rounded"
               @click="vote(card)"
               v-text="card"
+              :disabled="flipped"
             ></button>
           </li>
         </ul>
@@ -72,11 +76,14 @@ export default defineComponent({
     }
 
     function flipCards() {
-      console.log("flippin...");
       compData.flipped = true;
     }
 
-    return { ...toRefs(compData), vote, flipCards };
+    function restartGame() {
+      compData.flipped = false;
+    }
+
+    return { ...toRefs(compData), vote, flipCards, restartGame };
   }
 });
 </script>

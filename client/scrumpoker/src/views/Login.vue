@@ -1,6 +1,6 @@
 <template>
   <div
-    class="md:min-w-400 bg-white opacity-70 shadow-md rounded px-8 pt-6 pb-8 mb-4"
+    class="md:min-w-400 bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"
   >
     <div class="mb-4">
       <label
@@ -41,13 +41,13 @@
       >
         Login
       </button>
-      <button
+      <!-- <button
         @click="signup"
         class="bg-green-400 hover:bg-blue-dark text-white font-bold py-2 px-4 rounded"
         type="button"
       >
         Signup
-      </button>
+      </button> -->
     </div>
     <div>{{ error }}</div>
   </div>
