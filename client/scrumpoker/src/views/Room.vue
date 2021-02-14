@@ -5,12 +5,18 @@
         Loading...
       </div>
       <div v-else>
-        {{ activeUsers }}
+        <ul>
+          <li v-for="(player, index) in activeUsers" :key="index">
+            <span>{{index + 1}}. {{player.name}}</span>
+            <span class="ml-5" v-if="player.vote > 0" v-text="player.vote"></span>
+            <span v-else></span>
+          </li>
+        </ul>
       </div>
     </div>
     <div>
       <div>
-        <button class="p-2 rounded bg-black">Flip Cards</button>
+        <button @click="flipCards" class="p-2 rounded bg-black">Flip Cards</button>
       </div>
       <div class="p-5">
         <ul class="flex">
@@ -48,14 +54,17 @@ export default defineComponent({
     };
 
     function vote(cardVote: number){
-      console.log("my vote:",cardVote);
       const data = {
         vote: cardVote
       }
       ws.send(JSON.stringify(data));
     }
 
-    return { ...toRefs(compData), vote };
+    function flipCards(){
+      console.log("flippin...");
+    }
+
+    return { ...toRefs(compData), vote, flipCards };
   }
 });
 </script>
