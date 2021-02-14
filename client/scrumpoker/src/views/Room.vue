@@ -1,17 +1,24 @@
 <template>
-  <div>
-    <div v-if="loading">
-      Loading...
+  <div class="grid grid-cols-1 md:grid-cols-2">
+    <div>
+      <div v-if="loading">
+        Loading...
+      </div>
+      <div v-else>
+        {{ activeUsers }}
+      </div>
     </div>
-    <div v-else>
-      {{ activeUsers }}
-    </div>
-    <div class="p-5">
-      <ul class="flex">
-        <li v-for="card in cards" :key="card">
-          <button class="p-3 border-black" @click="vote(card)" v-text="card"></button>
-        </li>
-      </ul>
+    <div>
+      <div>
+        <button class="p-2 rounded bg-black">Flip Cards</button>
+      </div>
+      <div class="p-5">
+        <ul class="flex">
+          <li class="mr-5" v-for="card in cards" :key="card">
+            <button class="p-3 border border-gray-400 rounded" @click="vote(card)" v-text="card"></button>
+          </li>
+        </ul>
+      </div>
     </div>
   </div>
 </template>
