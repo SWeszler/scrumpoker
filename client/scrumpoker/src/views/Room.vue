@@ -6,6 +6,13 @@
     <div v-else>
       {{ activeUsers }}
     </div>
+    <div class="p-5">
+      <ul class="flex">
+        <li v-for="card in cards" :key="card">
+          <button class="p-3 border-black" @click="vote(card)" v-text="card"></button>
+        </li>
+      </ul>
+    </div>
   </div>
 </template>
 
@@ -19,7 +26,8 @@ export default defineComponent({
   setup() {
     const compData = reactive({
       activeUsers: [] as string[],
-      loading: true as boolean
+      loading: true as boolean,
+      cards: [1, 2, 3, 5, 8]
     });
     const store = useStore();
 
@@ -28,12 +36,19 @@ export default defineComponent({
     );
     ws.onmessage = e => {
       const data = JSON.parse(e.data);
-      console.log(data);
       compData.activeUsers = data.players;
       compData.loading = false;
     };
 
-    return { ...toRefs(compData) };
+    function vote(cardVote: number){
+      console.log("my vote:",cardVote);
+      const data = {
+        vote: cardVote
+      }
+      ws.send(JSON.stringify(data));
+    }
+
+    return { ...toRefs(compData), vote };
   }
 });
 </script>

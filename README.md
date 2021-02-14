@@ -19,7 +19,9 @@
 
 ## Deployment To Google Cloud Run
 
-### Enable Cloud APIs
+### Server
+
+#### Enable Cloud APIs
 ```
 gcloud services enable \
   run.googleapis.com \
@@ -30,13 +32,22 @@ gcloud services enable \
   secretmanager.googleapis.com
 ```
 
-### Clone Repository
-```
-gig clone ...
-```
 
-### Migrate Database
+#### Set Connection
+- Cloud SQL
+- Serverless VPC Network Connector (default)
+
+#### Create Redis Memorystore Instance
+
+
+#### Import Database
 
 ```
 gcloud sql import sql scrumpoker gs://bucket-name/db.sql --database=scrumpoker
 ```
+
+### Client
+
+#### Tailwind CSS Purge For Production
+
+Specify paths correctly for index.html and other source files.
