@@ -1,37 +1,37 @@
 <template>
-  <div class="grid grid-cols-1 md:grid-cols-2">
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
     <div>
       <div v-if="loading">
         Loading...
       </div>
       <div v-else>
-        <ul>
+        <ul class="bg-white rounded shadow-md p-5">
           <li v-for="(player, index) in activeUsers" :key="index">
             <span class="mr-5">{{ index + 1 }}. {{ player.name }}</span>
             <span
               v-if="flipped"
               v-text="player.vote"
             ></span>
-            <span class="text-green-400 rounded bg-white p-1" v-else-if="player.voted"><i class="far fa-check-circle"></i></span>
+            <span class="text-green-400" v-else-if="player.voted"><i class="far fa-check-circle"></i></span>
             <span v-else><i class="fas fa-hourglass-half"></i></span>
           </li>
         </ul>
       </div>
     </div>
-    <div>
-      <div>
-        <button @click="flipCards" class="p-2 rounded bg-white mr-5">
+    <div class="col-span-2">
+      <div class="mb-10">
+        <button @click="flipCards" class="focus:outline-none hover:bg-gray-400 pt-1 pb-1 pr-3 pl-3 shadow-md rounded-full bg-gray-300 mr-5">
           Flip Cards
         </button>
-        <button @click="restartGame" class="p-2 rounded bg-white">
+        <button @click="restartGame" class="focus:outline-none hover:bg-gray-400 pt-1 pb-1 pr-3 pl-3 shadow-md rounded-full bg-gray-300">
           Restart
         </button>
       </div>
-      <div class="p-5">
-        <ul class="flex">
-          <li class="mr-5" v-for="card in cards" :key="card">
+      <div>
+        <ul class="flex flex-wrap">
+          <li class="mr-5 mb-5" v-for="card in cards" :key="card">
             <button
-              class="p-3 border border-gray-400 rounded"
+              class="p-5 border border-gray-400 rounded bg-white shadow-md"
               @click="vote(card)"
               v-text="card"
               :disabled="flipped"
@@ -54,7 +54,7 @@ export default defineComponent({
     const compData = reactive({
       activeUsers: [] as string[],
       loading: true as boolean,
-      cards: [1, 2, 3, 5, 8],
+      cards: [1, 2, 3, 5, 8, 13, 20, 40, 100],
       flipped: false
     });
     const store = useStore();
