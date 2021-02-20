@@ -62,7 +62,7 @@ class RoomConsumer(AsyncWebsocketConsumer):
         player = Player.objects.filter(name=name).first()
         if player:
             player.active = False
-            player.save(update_fields="active")
+            player.save(update_fields=["active"])
 
 
     @database_sync_to_async
